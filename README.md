@@ -1,6 +1,8 @@
 ## About
 This repository represents a sample merchant server for a merchant integrating with `BraintreePayPalValidator`. This repository uses sample PayPal merchant staging credentials to create PayPal orderIDs and universal access tokens, and to capture orders.
 
+**Note:** The `BraintreePayPalValidator` module is still in development and _not yet available to the public_. This respository serves internal testing purposes but is made public to welcome intruige in this new project.
+
 ## Setup
 After cloning this repo, add a file called `.env` in the root directory. Add `TOKEN=xxxx` where xxxx is the value found in the Team SDK Heroku dashboard under Settings -> Config Vars.
 

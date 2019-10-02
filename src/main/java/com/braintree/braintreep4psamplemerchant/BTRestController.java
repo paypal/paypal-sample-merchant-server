@@ -33,6 +33,7 @@ public class BTRestController {
 
     @RequestMapping("/")
     String hello() {
+        System.out.println("\nHello, World\n");
         return "Hello, World";
     }
 
@@ -146,8 +147,15 @@ public class BTRestController {
                 "  ]\n" +
                 "}";
 
+        System.out.println("******************************");
+        System.out.println("\nREQUEST to /v2/checkout/orders:");
+        System.out.println("Headers: " + orderHeaders.toString());
+
         HttpEntity<String> orderRequest = new HttpEntity<>(orderBody, orderHeaders);
         ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + "/v2/checkout/orders", orderRequest, Order.class);
+
+        System.out.println("OrderID: " + orderResponse.getBody().getId());
+        System.out.println("HTTP status code: " + orderResponse.getStatusCode());
 
         return new OrderValidationInfo(uat, orderResponse.getBody().getId());
     }
@@ -158,9 +166,16 @@ public class BTRestController {
       orderHeaders.add("Authorization", token);
       orderHeaders.setContentType(MediaType.APPLICATION_JSON);
 
+      System.out.println("******************************");
+      System.out.println("\nREQUEST to /v2/checkout/orders/<order-id>/capture:");
+      System.out.println("Headers: " + orderHeaders.toString());
+
       HttpEntity<String> orderRequest = new HttpEntity<>(null, orderHeaders);
       ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + "/v2/checkout/orders/" + orderId + "/capture", orderRequest, Order.class);
 
+      System.out.println("OrderID: " + orderResponse.getBody().getId());
+      System.out.println("HTTP status code: " + orderResponse.getStatusCode());
+      
 	  return new OrderCaptureInfo(orderResponse.getBody().getId(), orderResponse.getBody().getStatus());
     }
 }

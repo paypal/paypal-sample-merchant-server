@@ -3,9 +3,6 @@ This repository represents a sample merchant server for a merchant integrating w
 
 **Note:** The `BraintreePayPalValidator` module is still in development and _not yet available to the public_. This respository serves internal testing purposes but is made public to welcome intruige in this new project.
 
-## Setup
-After cloning this repo, add a file called `.env` in the root directory. Add `TOKEN=xxxx` where xxxx is the value found in the Team SDK Heroku dashboard under Settings -> Config Vars.
-
 ## Build and run locally
 - To build, run `./gradlew clean build`.
 - To run locally with Heroku, run `heroku local web`.

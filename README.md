@@ -1,9 +1,6 @@
 ## About
 This repository represents a sample merchant server for a merchant integrating with `BraintreePayPalValidator`. This repository uses sample PayPal merchant staging credentials to create PayPal orderIDs and universal access tokens, and to capture orders.
 
-## Setup
-After cloning this repo, add a file called `.env` in the root directory. Add `TOKEN=xxxx` where xxxx is the value found in the Team SDK Heroku dashboard under Settings -> Config Vars.
-
 ## Build and run locally
 - To build, run `./gradlew clean build`.
 - To run locally with Heroku, run `heroku local web`.
@@ -12,6 +9,12 @@ After cloning this repo, add a file called `.env` in the root directory. Add `TO
 If everything worked, you should be able to hit `http://localhost:5000/order-validation-info`.
 
 **Note:** This can't be deployed to Heroku at the moment, because we aren't able to hit `/v2/checkout/orders` outside of the PayPal network.
+
+## Switching Merchant Account/ Authentication
+
+To change the merchant account used on this server, navigate to the `.env` file. Change the `TOKEN= Basic xxxx` where `xxxx` is the value of your new desired authorization credentials. 
+
+After making this change, execute both the build and run steps in the *Build and run locally* section above.
 
 ## Troubleshooting
 

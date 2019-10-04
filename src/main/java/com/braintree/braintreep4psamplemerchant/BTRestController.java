@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collections;
 
@@ -38,7 +39,8 @@ public class BTRestController {
     }
 
     @RequestMapping("/order-validation-info")
-    OrderValidationInfo getOrderValidationInfo() {
+    OrderValidationInfo getOrderValidationInfo(@RequestParam(value = "payeeEmail", required = false) String payeeEmail, 
+                                               @RequestParam(value = "amount", required = false) String amount) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -57,6 +59,10 @@ public class BTRestController {
         orderHeaders.add("Authorization", "Bearer " + uat);
         orderHeaders.setContentType(MediaType.APPLICATION_JSON);
 
+        // Set order request param defaults
+        payeeEmail = (payeeEmail == null) ? "sample@email.com" : payeeEmail; // this request needs an email or it doesn't work
+        amount = (amount == null) ? "10.00" : amount;                                    
+
         String orderBody = "{\n" +
                 "  \"intent\":\"CAPTURE\",\n" +
                 "  \"purchase_units\":[\n" +
@@ -68,11 +74,11 @@ public class BTRestController {
                 "      \"soft_descriptor\":\"SOFT1001\",\n" +
                 "      \"amount\":{\n" +
                 "        \"currency_code\":\"USD\",\n" +
-                "        \"value\":\"125.00\",\n" +
+                "        \"value\":\"" + amount + "\",\n" +
                 "        \"breakdown\":{\n" +
                 "          \"item_total\":{\n" +
                 "            \"currency_code\":\"USD\",\n" +
-                "            \"value\":\"125.00\"\n" +
+                "            \"value\":\"" + amount + "\"\n" +
                 "          },\n" +
                 "          \"shipping\":{\n" +
                 "            \"currency_code\":\"USD\",\n" +
@@ -103,7 +109,7 @@ public class BTRestController {
                 "          \"sku\": \"259483234816\",\n" +
                 "          \"unit_amount\": {\n" +
                 "            \"currency_code\": \"USD\",\n" +
-                "            \"value\": \"125.00\"\n" +
+                "            \"value\": \"" + amount + "\"\n" +
                 "          },\n" +
                 "          \"tax\": {\n" +
                 "            \"currency_code\": \"USD\",\n" +
@@ -128,7 +134,7 @@ public class BTRestController {
                 "        }\n" +
                 "      ],\n" +
                 "      \"payee\": {\n" +
-                "        \"email_address\": \"rtimoschuk-us-bus-onb-ppcp-approve-seller15@paypal.com\"\n" +
+                "       \"email_address\": \"" + payeeEmail + "\"\n" +
                 "      },\n" +
                 "      \"shipping\":{\n" +
                 "        \"address\":{\n" +
@@ -150,6 +156,8 @@ public class BTRestController {
         System.out.println("******************************");
         System.out.println("\nREQUEST to /v2/checkout/orders:");
         System.out.println("Headers: " + orderHeaders.toString());
+        System.out.println("Payee Email: " + payeeEmail);
+        System.out.println("Amount: " + amount);
 
         HttpEntity<String> orderRequest = new HttpEntity<>(orderBody, orderHeaders);
         ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + "/v2/checkout/orders", orderRequest, Order.class);
@@ -167,7 +175,7 @@ public class BTRestController {
       orderHeaders.setContentType(MediaType.APPLICATION_JSON);
 
       System.out.println("******************************");
-      System.out.println("\nREQUEST to /v2/checkout/orders/<order-id>/capture:");
+      System.out.println("\nREQUEST to /v2/checkout/orders/" + orderId + "/capture:");
       System.out.println("Headers: " + orderHeaders.toString());
 
       HttpEntity<String> orderRequest = new HttpEntity<>(null, orderHeaders);

@@ -1,6 +1,8 @@
 ## About
 This repository represents a sample merchant server for a merchant integrating with `BraintreePayPalValidator`. This repository uses sample PayPal merchant staging credentials to create PayPal orderIDs and universal access tokens, and to capture orders.
 
+**Note:** The `BraintreePayPalValidator` module is still in development and not meant for public consumption.
+
 ## Build and run locally
 - To build, run `./gradlew clean build`.
 - To run locally with Heroku, run `heroku local web`.

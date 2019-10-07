@@ -23,7 +23,7 @@ public class BTRestController {
     private RestTemplate restTemplate;
     private String token;
     private String url;
-	private String uat;
+	  private String uat;
 
     @Autowired
     public BTRestController(RestTemplate restTemplate, @Value("${token}") String token, @Value("${url}") String url) {
@@ -40,7 +40,8 @@ public class BTRestController {
 
     @RequestMapping("/order-validation-info")
     OrderValidationInfo getOrderValidationInfo(@RequestParam(value = "payeeEmail", required = false) String payeeEmail, 
-                                               @RequestParam(value = "amount", required = false) String amount) {
+                                               @RequestParam(value = "amount", required = false) String amount,
+                                               @RequestParam(value = "intent", required = false) String intent) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -53,7 +54,7 @@ public class BTRestController {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
         ResponseEntity<UniversalAccessToken> response = restTemplate.postForEntity(url + "/v1/oauth2/token", request, UniversalAccessToken.class);
         String uat = response.getBody().getToken();
-		this.uat = uat;
+		    this.uat = uat;
 
         HttpHeaders orderHeaders = new HttpHeaders();
         orderHeaders.add("Authorization", "Bearer " + uat);
@@ -62,9 +63,10 @@ public class BTRestController {
         // Set order request param defaults
         payeeEmail = (payeeEmail == null) ? "sample@email.com" : payeeEmail; // this request needs an email or it doesn't work
         amount = (amount == null) ? "10.00" : amount;                                    
+        intent = (intent == null) ? "CAPTURE" : intent;
 
         String orderBody = "{\n" +
-                "  \"intent\":\"CAPTURE\",\n" +
+                "  \"intent\":\"" + intent + "\",\n" +
                 "  \"purchase_units\":[\n" +
                 "    {\n" +
                 "      \"payment_group_id\":\"1\",\n" +
@@ -156,6 +158,7 @@ public class BTRestController {
         System.out.println("******************************");
         System.out.println("\nREQUEST to /v2/checkout/orders:");
         System.out.println("Headers: " + orderHeaders.toString());
+        System.out.println("Intent: " + intent);
         System.out.println("Payee Email: " + payeeEmail);
         System.out.println("Amount: " + amount);
 
@@ -169,17 +172,19 @@ public class BTRestController {
     }
 
     @RequestMapping("/capture-order/{orderId}")
-    OrderCaptureInfo captureOrder(@PathVariable String orderId) {
+    OrderCaptureInfo captureOrder(@PathVariable String orderId,
+                                  @RequestParam(value = "authorize", required = false, defaultValue = "0") String authorize) {
       HttpHeaders orderHeaders = new HttpHeaders();
       orderHeaders.add("Authorization", token);
       orderHeaders.setContentType(MediaType.APPLICATION_JSON);
+      String intent = authorize == "1" ? "authorize" : "capture";
 
       System.out.println("******************************");
-      System.out.println("\nREQUEST to /v2/checkout/orders/" + orderId + "/capture:");
+      System.out.println("\nREQUEST to /v2/checkout/orders/" + orderId + "/" + intent);
       System.out.println("Headers: " + orderHeaders.toString());
 
       HttpEntity<String> orderRequest = new HttpEntity<>(null, orderHeaders);
-      ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + "/v2/checkout/orders/" + orderId + "/capture", orderRequest, Order.class);
+      ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + "/v2/checkout/orders/" + orderId + "/" + intent, orderRequest, Order.class);
 
       System.out.println("OrderID: " + orderResponse.getBody().getId());
       System.out.println("HTTP status code: " + orderResponse.getStatusCode());

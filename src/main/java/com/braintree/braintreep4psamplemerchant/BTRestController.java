@@ -39,9 +39,9 @@ public class BTRestController {
     }
 
     @RequestMapping("/order-validation-info")
-    OrderValidationInfo getOrderValidationInfo(@RequestParam(value = "payeeEmail", required = false) String payeeEmail, 
-                                               @RequestParam(value = "amount", required = false) String amount,
-                                               @RequestParam(value = "intent", required = false) String intent) {
+    OrderValidationInfo getOrderValidationInfo(@RequestParam(value = "payeeEmail", required = false, defaultValue = "sample@email.com") String payeeEmail, 
+                                               @RequestParam(value = "amount", required = false, defaultValue = "10.00") String amount,
+                                               @RequestParam(value = "intent", required = false, defaultValue = "CAPTURE") String intent) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -59,11 +59,6 @@ public class BTRestController {
         HttpHeaders orderHeaders = new HttpHeaders();
         orderHeaders.add("Authorization", "Bearer " + uat);
         orderHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        // Set order request param defaults
-        payeeEmail = (payeeEmail == null) ? "sample@email.com" : payeeEmail; // this request needs an email or it doesn't work
-        amount = (amount == null) ? "10.00" : amount;                                    
-        intent = (intent == null) ? "CAPTURE" : intent;
 
         String orderBody = "{\n" +
                 "  \"intent\":\"" + intent + "\",\n" +
@@ -173,18 +168,18 @@ public class BTRestController {
 
     @RequestMapping("/capture-order/{orderId}")
     OrderCaptureInfo captureOrder(@PathVariable String orderId,
-                                  @RequestParam(value = "authorize", required = false, defaultValue = "0") String authorize) {
+                                  @RequestParam(value = "intent", required = false, defaultValue = "capture") String intent) {
       HttpHeaders orderHeaders = new HttpHeaders();
       orderHeaders.add("Authorization", token);
       orderHeaders.setContentType(MediaType.APPLICATION_JSON);
-      String intent = authorize == "1" ? "authorize" : "capture";
 
       System.out.println("******************************");
-      System.out.println("\nREQUEST to /v2/checkout/orders/" + orderId + "/" + intent);
+      System.out.println("\nREQUEST to /v2/checkout/orders/" + orderId + "/" + intent.toLowerCase());
+      System.out.println("Intent: " + intent.toLowerCase());
       System.out.println("Headers: " + orderHeaders.toString());
 
       HttpEntity<String> orderRequest = new HttpEntity<>(null, orderHeaders);
-      ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + "/v2/checkout/orders/" + orderId + "/" + intent, orderRequest, Order.class);
+      ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + "/v2/checkout/orders/" + orderId + "/" + intent.toLowerCase(), orderRequest, Order.class);
 
       System.out.println("OrderID: " + orderResponse.getBody().getId());
       System.out.println("HTTP status code: " + orderResponse.getStatusCode());

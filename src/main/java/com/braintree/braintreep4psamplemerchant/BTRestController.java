@@ -166,7 +166,7 @@ public class BTRestController {
         return new OrderValidationInfo(uat, orderResponse.getBody().getId());
     }
 
-    @RequestMapping("/capture-order/{orderId}")
+    @RequestMapping("/process-order/{orderId}")
     OrderCaptureInfo captureOrder(@PathVariable String orderId,
                                   @RequestParam(value = "intent", required = false, defaultValue = "capture") String intent) {
       HttpHeaders orderHeaders = new HttpHeaders();

@@ -8,12 +8,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 
@@ -21,14 +20,15 @@ import java.util.Collections;
 public class BTRestController {
 
     private RestTemplate restTemplate;
-    private String token;
+    private String usAuth;
+    private String ukAuth;
     private String url;
-	  private String uat;
 
     @Autowired
-    public BTRestController(RestTemplate restTemplate, @Value("${token}") String token, @Value("${url}") String url) {
+    public BTRestController(RestTemplate restTemplate, @Value("${authorization.us}") String usAuth, @Value("${authorization.uk}") String ukAuth, @Value("${url}") String url) {
         this.restTemplate = restTemplate;
-        this.token = token;
+        this.usAuth = usAuth;
+        this.ukAuth = ukAuth;
         this.url = url;
     }
 
@@ -41,9 +41,10 @@ public class BTRestController {
     @RequestMapping("/order-validation-info")
     OrderValidationInfo getOrderValidationInfo(@RequestParam(value = "payeeEmail", required = false, defaultValue = "sample@email.com") String payeeEmail, 
                                                @RequestParam(value = "amount", required = false, defaultValue = "10.00") String amount,
-                                               @RequestParam(value = "intent", required = false, defaultValue = "CAPTURE") String intent) {
+                                               @RequestParam(value = "intent", required = false, defaultValue = "CAPTURE") String intent,
+                                               @RequestParam(value = "partnerCountry", required = false, defaultValue = "US") String partnerCountry) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", token);
+        headers.add("Authorization", "US".equals(partnerCountry) ? usAuth : ukAuth);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
@@ -54,7 +55,6 @@ public class BTRestController {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
         ResponseEntity<UniversalAccessToken> response = restTemplate.postForEntity(url + "/v1/oauth2/token", request, UniversalAccessToken.class);
         String uat = response.getBody().getToken();
-		    this.uat = uat;
 
         HttpHeaders orderHeaders = new HttpHeaders();
         orderHeaders.add("Authorization", "Bearer " + uat);
@@ -167,10 +167,11 @@ public class BTRestController {
     }
 
     @RequestMapping("/process-order/{orderId}")
-    OrderCaptureInfo captureOrder(@PathVariable String orderId,
-                                  @RequestParam(value = "intent", required = false, defaultValue = "capture") String intent) {
+    OrderCaptureInfo processOrder(@PathVariable String orderId,
+                                  @RequestParam(value = "intent", required = false, defaultValue = "capture") String intent,
+                                  @RequestParam(value = "partnerCountry", required = false, defaultValue = "US") String partnerCountry) {
       HttpHeaders orderHeaders = new HttpHeaders();
-      orderHeaders.add("Authorization", token);
+      orderHeaders.add("Authorization", "US".equals(partnerCountry) ? usAuth : ukAuth);
       orderHeaders.setContentType(MediaType.APPLICATION_JSON);
 
       System.out.println("******************************");

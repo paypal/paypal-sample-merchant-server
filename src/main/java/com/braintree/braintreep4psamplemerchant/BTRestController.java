@@ -154,6 +154,7 @@ public class BTRestController {
         System.out.println("\nREQUEST to /v2/checkout/orders:");
         System.out.println("Headers: " + orderHeaders.toString());
         System.out.println("Intent: " + intent);
+        System.out.println("Partner country: " + partnerCountry);
         System.out.println("Payee Email: " + payeeEmail);
         System.out.println("Amount: " + amount);
 
@@ -178,6 +179,7 @@ public class BTRestController {
       System.out.println("\nREQUEST to /v2/checkout/orders/" + orderId + "/" + intent.toLowerCase());
       System.out.println("Intent: " + intent.toLowerCase());
       System.out.println("Headers: " + orderHeaders.toString());
+      System.out.println("Partner country: " + partnerCountry);
 
       HttpEntity<String> orderRequest = new HttpEntity<>(null, orderHeaders);
       ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + "/v2/checkout/orders/" + orderId + "/" + intent.toLowerCase(), orderRequest, Order.class);

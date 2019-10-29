@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class BraintreeP4pSampleMerchantApplication {
+public class SampleMerchantApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BraintreeP4pSampleMerchantApplication.class, args);
+		SpringApplication.run(SampleMerchantApplication.class, args);
 	}
 
 	@Bean

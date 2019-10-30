@@ -33,4 +33,13 @@ public class ProcessOrderRequest {
     public void setCountryCode(final String countryCode) {
         this.countryCode = countryCode;
     }
+
+    @Override
+    public String toString() {
+        return "ProcessOrderRequest{" +
+                "orderId='" + orderId + '\'' +
+                ", intent='" + intent + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                '}';
+    }
 }

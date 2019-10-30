@@ -24,4 +24,12 @@ public class Amount {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Amount{" +
+                "currencyCode='" + currencyCode + '\'' +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }

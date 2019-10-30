@@ -11,4 +11,11 @@ public class PurchaseUnit {
     public void setAmount(Amount amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "PurchaseUnit{" +
+                "amount=" + amount +
+                '}';
+    }
 }

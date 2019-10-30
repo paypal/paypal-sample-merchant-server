@@ -18,6 +18,9 @@ public class RestController {
 
     @PostMapping(path = "/uat")
     UniversalAccessToken getUat(@RequestParam(value = "countryCode", required = false, defaultValue = "US") String countryCode) {
+        System.out.println("******************************");
+        System.out.println("REQUEST to /v2/checkout/authorize-order:");
+        System.out.println("Country code: " + countryCode);
         return payPalTokenClient.getFullScopedUAT(countryCode);
     }
 
@@ -33,11 +36,17 @@ public class RestController {
 
     @PostMapping("/capture-order")
     Order captureOrder(@RequestBody ProcessOrderRequest processOrderRequest)  {
+        System.out.println("******************************");
+        System.out.println("REQUEST to /v2/checkout/capture-order:");
+        System.out.println("Process Order Request body: " + processOrderRequest.toString());
         return ordersV2Client.processOrder(processOrderRequest);
     }
 
     @PostMapping("/authorize-order")
     Order authorizeOrder(@RequestBody ProcessOrderRequest processOrderRequest) {
+        System.out.println("******************************");
+        System.out.println("REQUEST to /v2/checkout/authorize-order:");
+        System.out.println("Process Order Request body: " + processOrderRequest.toString());
         return ordersV2Client.processOrder(processOrderRequest);
     }
 }

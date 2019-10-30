@@ -36,4 +36,13 @@ public class CreateOrderRequest {
     public void setPayee(Payee payee) {
         this.payee = payee;
     }
+
+    @Override
+    public String toString() {
+        return "CreateOrderRequest{" +
+                "intent='" + intent + '\'' +
+                ", purchaseUnits=" + purchaseUnits +
+                ", payee=" + payee +
+                '}';
+    }
 }

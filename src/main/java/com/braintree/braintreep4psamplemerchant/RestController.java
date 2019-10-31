@@ -2,7 +2,10 @@ package com.braintree.braintreep4psamplemerchant;
 
 import com.braintree.braintreep4psamplemerchant.CreateOrder.CreateOrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -19,7 +22,7 @@ public class RestController {
     @PostMapping(path = "/uat")
     UniversalAccessToken getUat(@RequestParam(value = "countryCode", required = false, defaultValue = "US") String countryCode) {
         System.out.println("******************************");
-        System.out.println("REQUEST to /v2/checkout/authorize-order:");
+        System.out.println("REQUEST to /v1/oauth2/token:");
         System.out.println("Country code: " + countryCode);
         return payPalTokenClient.getFullScopedUAT(countryCode);
     }
@@ -34,19 +37,23 @@ public class RestController {
         return ordersV2Client.createOrder(createOrderRequest, countryCode);
     }
 
-    @PostMapping("/capture-order")
-    Order captureOrder(@RequestBody ProcessOrderRequest processOrderRequest)  {
+    @PostMapping(path = "/capture-order")
+    Order captureOrder(@RequestBody ProcessOrderRequest processOrderRequest,
+                        @RequestHeader(value = "PayPal-Client-Metadata-Id") String metadataId) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v2/checkout/capture-order:");
         System.out.println("Process Order Request body: " + processOrderRequest.toString());
-        return ordersV2Client.processOrder(processOrderRequest);
+        System.out.println("Client Metadata ID: " + metadataId);
+        return ordersV2Client.processOrder(processOrderRequest, metadataId);
     }
 
     @PostMapping("/authorize-order")
-    Order authorizeOrder(@RequestBody ProcessOrderRequest processOrderRequest) {
+    Order authorizeOrder(@RequestBody ProcessOrderRequest processOrderRequest,
+                         @RequestHeader(value = "PayPal-Client-Metadata-Id") String metadataId) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v2/checkout/authorize-order:");
         System.out.println("Process Order Request body: " + processOrderRequest.toString());
-        return ordersV2Client.processOrder(processOrderRequest);
+        System.out.println("Client Metadata ID: " + metadataId);
+        return ordersV2Client.processOrder(processOrderRequest, metadataId);
     }
 }

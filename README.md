@@ -4,17 +4,13 @@ This repository represents a sample merchant server for a merchant integrating w
 **Note:** The `BraintreePayPalValidator` module is still in development and not meant for public consumption.
 
 ## Build and run locally
-- To build, run `./gradlew clean build`.
-- To run locally with Heroku, run `heroku local web`.
-    - If you need to install the Heroku CLI, run `brew tap heroku/brew && brew install heroku`.
+To build and run locally, use the command: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local`. You will need to have Maven installed.
 
-If everything worked, you should be able to hit `http://localhost:5000/order-validation-info`.
-
-**Note:** This can't be deployed to Heroku at the moment, because we aren't able to hit `/v2/checkout/orders` outside of the PayPal network.
+If everything worked, you should be able to hit `http://localhost:5000/uat?countryCode=US`.
 
 ## Switching Merchant Account/ Authentication
 
-To change the merchant account used on this server, navigate to the `.env` file. Change the `TOKEN= Basic xxxx` where `xxxx` is the value of your new desired authorization credentials. 
+To change the merchant account used on this server, update the credentials in `application-local.properties`.
 
 After making this change, execute both the build and run steps in the *Build and run locally* section above.
 

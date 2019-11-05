@@ -4,7 +4,7 @@ This repository represents a sample merchant server for a merchant integrating w
 **Note:** The `BraintreePayPalValidator` module is still in development and not meant for public consumption.
 
 ## Build and run locally
-To build and run locally, use the command: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local`. You will need to have Maven installed.
+To build and run locally, use the command: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local`. Running this command will install Maven and all necessary dependencies.
 
 If everything worked, you should be able to hit `http://localhost:5000/uat?countryCode=US`.
 

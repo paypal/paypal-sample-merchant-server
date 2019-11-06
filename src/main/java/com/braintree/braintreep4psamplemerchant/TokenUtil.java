@@ -12,28 +12,28 @@ class TokenUtil {
 
     private String clientIdUS;
     private String clientSecretUS;
-    private String clientIdGB;
-    private String clientSecretGB;
+    private String clientIdUK;
+    private String clientSecretUK;
 
     @Autowired
     public TokenUtil(@Value("${us.client.id}") String clientIdUS,
                      @Value("${us.client.secret}") String clientSecretUS,
-                     @Value("${gb.client.id}") String clientIdGB,
-                     @Value("${gb.client.secret}") String clientSecretGB) {
+                     @Value("${uk.client.id}") String clientIdUK,
+                     @Value("${uk.client.secret}") String clientSecretUK) {
         this.clientIdUS = clientIdUS;
         this.clientSecretUS = clientSecretUS;
-        this.clientIdGB = clientIdGB;
-        this.clientSecretGB = clientSecretGB;
+        this.clientIdUK = clientIdUK;
+        this.clientSecretUK = clientSecretUK;
     }
 
     String getTokenAuthorizationHeaderForLowScope(String countryCode) {
-        String clientId = "GB".equalsIgnoreCase(countryCode) ? clientIdGB : clientIdUS;
+        String clientId = "UK".equalsIgnoreCase(countryCode) ? clientIdUK : clientIdUS;
         return "Basic " + Base64.getEncoder().encodeToString(clientId.getBytes());
     }
 
     String getTokenAuthorizationHeaderForFullScope(String countryCode) {
-        String clientId = "GB".equalsIgnoreCase(countryCode) ? clientIdGB : clientIdUS;
-        String clientSecret = "GB".equalsIgnoreCase(countryCode) ? clientSecretGB : clientSecretUS;
+        String clientId = "UK".equalsIgnoreCase(countryCode) ? clientIdUK : clientIdUS;
+        String clientSecret = "UK".equalsIgnoreCase(countryCode) ? clientSecretUK : clientSecretUS;
         return "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes());
     }
 }

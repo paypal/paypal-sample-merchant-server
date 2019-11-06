@@ -20,7 +20,7 @@ public class RestController {
     }
 
     @PostMapping(path = "/uat")
-    UniversalAccessToken getUat(@RequestParam(value = "countryCode", required = false, defaultValue = "US") String countryCode) {
+    UniversalAccessToken getUat(@RequestParam(value = "countryCode") String countryCode) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v1/oauth2/token:");
         System.out.println("Country code: " + countryCode);
@@ -29,7 +29,7 @@ public class RestController {
 
     @PostMapping(path = "/order")
     Order createOrder(@RequestBody CreateOrderRequest createOrderRequest,
-                      @RequestParam(value = "countryCode", required = false, defaultValue = "US") String countryCode) {
+                      @RequestParam(value = "countryCode") String countryCode) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v2/checkout/orders:");
         System.out.println("Order Request body: " + createOrderRequest.toString());

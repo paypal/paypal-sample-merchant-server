@@ -1,6 +1,8 @@
 package com.braintree.braintreep4psamplemerchant;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -36,10 +38,12 @@ public class ProcessOrderRequest {
 
     @Override
     public String toString() {
-        return "ProcessOrderRequest{" +
-                "orderId='" + orderId + '\'' +
-                ", intent='" + intent + '\'' +
-                ", countryCode='" + countryCode + '\'' +
-                '}';
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

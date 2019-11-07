@@ -1,6 +1,5 @@
 package com.braintree.braintreep4psamplemerchant;
 
-import com.braintree.braintreep4psamplemerchant.CreateOrder.CreateOrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

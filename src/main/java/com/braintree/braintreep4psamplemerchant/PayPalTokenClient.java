@@ -1,6 +1,7 @@
 package com.braintree.braintreep4psamplemerchant;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,15 +17,17 @@ import java.util.Collections;
 @Component
 public class PayPalTokenClient {
 
-    private static final String TOKEN_URL = "https://api.msmaster.qa.paypal.com/v1/oauth2/token";
+    private static final String TOKEN_PATH = "/v1/oauth2/token";
 
     private final RestTemplate restTemplate;
     private final TokenUtil tokenUtil;
+    private final String url;
 
     @Autowired
-    public PayPalTokenClient(RestTemplate restTemplate, TokenUtil tokenUtil) {
+    public PayPalTokenClient(RestTemplate restTemplate, TokenUtil tokenUtil, @Value("${url}") String url) {
         this.restTemplate = restTemplate;
         this.tokenUtil = tokenUtil;
+        this.url = url;
     }
 
     public UniversalAccessToken getLowScopedUAT(final String countryCode) {
@@ -47,7 +50,7 @@ public class PayPalTokenClient {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
         ResponseEntity<UniversalAccessToken> response = restTemplate.postForEntity(
-                TOKEN_URL,
+                url + TOKEN_PATH,
                 request,
                 UniversalAccessToken.class);
 

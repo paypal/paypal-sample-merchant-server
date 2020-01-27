@@ -1,6 +1,7 @@
 package com.braintree.braintreep4psamplemerchant;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,15 +12,19 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class OrdersV2Client {
 
-    private static final String ORDERS_V2_URL = "https://api.ppcpn.stage.paypal.com/v2/checkout/orders";
+    private static final String ORDERS_V2_PATH = "/v2/checkout/orders";
 
     private RestTemplate restTemplate;
     private PayPalTokenClient payPalTokenService;
+    private String url;
 
     @Autowired
-    public OrdersV2Client(RestTemplate restTemplate, PayPalTokenClient payPalTokenService) {
+    public OrdersV2Client(RestTemplate restTemplate,
+                          PayPalTokenClient payPalTokenService,
+                          @Value("${url}") String url) {
         this.restTemplate = restTemplate;
         this.payPalTokenService = payPalTokenService;
+        this.url = url;
     }
 
     Order createOrder(CreateOrderRequest orderBody, String countryCode) {
@@ -28,7 +33,7 @@ public class OrdersV2Client {
         orderHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<CreateOrderRequest> orderRequest = new HttpEntity<>(orderBody, orderHeaders);
-        ResponseEntity<Order> orderResponse = restTemplate.postForEntity(ORDERS_V2_URL, orderRequest, Order.class);
+        ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + ORDERS_V2_PATH, orderRequest, Order.class);
 
         System.out.println("OrderID: " + orderResponse.getBody().getId());
         System.out.println("HTTP status code: " + orderResponse.getStatusCode());
@@ -45,7 +50,7 @@ public class OrdersV2Client {
         orderHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> orderRequest = new HttpEntity<>("", orderHeaders);
-        ResponseEntity<Order> orderResponse = restTemplate.postForEntity(ORDERS_V2_URL +"/"+ processOrderRequest.getOrderId() +"/" + processOrderRequest.getIntent(),
+        ResponseEntity<Order> orderResponse = restTemplate.postForEntity(url + ORDERS_V2_PATH +"/"+ processOrderRequest.getOrderId() +"/" + processOrderRequest.getIntent(),
                 orderRequest,
                 Order.class);
 

@@ -18,6 +18,8 @@ After making this change, execute both the build and run steps in the *Build and
 
 The app is currently deployed to Heroku at this url: https://ppcp-sample-merchant-sand.herokuapp.com.
 
+#### Deploying to sandbox
+
 To deploy to sandbox, first add a git remote called sandbox:
 
 `git remote add sandbox https://git.heroku.com/ppcp-sample-merchant-sand.git`
@@ -25,6 +27,16 @@ To deploy to sandbox, first add a git remote called sandbox:
 Pushing your changes to this remote will automatically deploy them:
 
 `git push sandbox master`
+
+#### Deploying to production
+
+To deploy to production, first add a git remote called heroku:
+
+`git remote add heroku https://git.heroku.com/ppcp-sample-merchant-prod.git`
+
+Pushing your changes to this remote will automatically deploy them:
+
+`git push heroku master`
 
 ## Troubleshooting
 

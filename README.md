@@ -14,6 +14,18 @@ To change the merchant account used on this server, update the credentials in `a
 
 After making this change, execute both the build and run steps in the *Build and run locally* section above.
 
+## Deploying
+
+The app is currently deployed to Heroku at this url: https://ppcp-sample-merchant-sand.herokuapp.com.
+
+To deploy to sandbox, first add a git remote called sandbox:
+
+`git remote add sandbox https://git.heroku.com/ppcp-sample-merchant-sand.git`
+
+Pushing your changes to this remote will automatically deploy them:
+
+`git push sandbox master`
+
 ## Troubleshooting
 
 ### PayPal v2/orders Request Limitations

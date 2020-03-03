@@ -1,2 +1,2 @@
-web: java -jar build/libs/braintree-p4p-sample-merchant-0.0.1-SNAPSHOT.jar
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.braintree.braintreep4psamplemerchant.SampleMerchantApplication
 

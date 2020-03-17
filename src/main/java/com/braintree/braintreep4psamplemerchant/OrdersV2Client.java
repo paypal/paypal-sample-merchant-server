@@ -29,7 +29,7 @@ public class OrdersV2Client {
 
     Order createOrder(CreateOrderRequest orderBody, String countryCode) {
         HttpHeaders orderHeaders = new HttpHeaders();
-        orderHeaders.add("Authorization", "Bearer " + payPalTokenService.getLowScopedUAT(countryCode).getToken());
+        orderHeaders.add("Authorization", "Bearer " + payPalTokenService.getFullScopedUAT(countryCode).getToken());
         orderHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<CreateOrderRequest> orderRequest = new HttpEntity<>(orderBody, orderHeaders);

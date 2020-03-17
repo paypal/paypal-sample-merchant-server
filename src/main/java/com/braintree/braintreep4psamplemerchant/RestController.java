@@ -23,7 +23,7 @@ public class RestController {
         System.out.println("******************************");
         System.out.println("REQUEST to /v1/oauth2/token:");
         System.out.println("Country code: " + countryCode);
-        return payPalTokenClient.getFullScopedUAT(countryCode);
+        return payPalTokenClient.getLowScopedUAT(countryCode);
     }
 
     @PostMapping(path = "/order")

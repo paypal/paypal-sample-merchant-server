@@ -1,10 +1,7 @@
 package com.braintree.braintreep4psamplemerchant;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -18,7 +15,7 @@ public class RestController {
         this.payPalTokenClient = payPalTokenClient;
     }
 
-    @PostMapping(path = "/uat")
+    @GetMapping(path = "/uat")
     UniversalAccessToken getUat(@RequestParam(value = "countryCode") String countryCode) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v1/oauth2/token:");

@@ -34,22 +34,18 @@ public class RestController {
     }
 
     @PostMapping(path = "/capture-order")
-    Order captureOrder(@RequestBody ProcessOrderRequest processOrderRequest,
-                        @RequestHeader(value = "PayPal-Client-Metadata-Id") String metadataId) {
+    Order captureOrder(@RequestBody ProcessOrderRequest processOrderRequest) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v2/checkout/capture-order:");
         System.out.println("Process Order Request body: " + processOrderRequest.toString());
-        System.out.println("Client Metadata ID: " + metadataId);
-        return ordersV2Client.processOrder(processOrderRequest, metadataId);
+        return ordersV2Client.processOrder(processOrderRequest);
     }
 
     @PostMapping("/authorize-order")
-    Order authorizeOrder(@RequestBody ProcessOrderRequest processOrderRequest,
-                         @RequestHeader(value = "PayPal-Client-Metadata-Id") String metadataId) {
+    Order authorizeOrder(@RequestBody ProcessOrderRequest processOrderRequest) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v2/checkout/authorize-order:");
         System.out.println("Process Order Request body: " + processOrderRequest.toString());
-        System.out.println("Client Metadata ID: " + metadataId);
-        return ordersV2Client.processOrder(processOrderRequest, metadataId);
+        return ordersV2Client.processOrder(processOrderRequest);
     }
 }

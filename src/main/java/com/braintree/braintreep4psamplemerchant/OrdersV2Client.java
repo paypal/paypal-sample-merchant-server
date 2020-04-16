@@ -43,10 +43,9 @@ public class OrdersV2Client {
         return orderResponse.getBody();
     }
 
-    Order processOrder(ProcessOrderRequest processOrderRequest, String metadataId) {
+    Order processOrder(ProcessOrderRequest processOrderRequest) {
         HttpHeaders orderHeaders = new HttpHeaders();
         orderHeaders.add("Authorization", "Bearer " + payPalTokenService.getFullScopedUAT(processOrderRequest.getCountryCode()).getToken());
-        orderHeaders.add("PayPal-Client-Metadata-Id", metadataId);
         orderHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> orderRequest = new HttpEntity<>("", orderHeaders);

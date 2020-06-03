@@ -6,7 +6,7 @@ This repository represents a sample merchant server for a merchant integrating w
 ## Build and run locally
 To build and run locally, use the command: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local`. Running this command will install Maven and all necessary dependencies.
 
-If everything worked, you should be able to hit `http://localhost:5000/uat?countryCode=US`.
+If everything worked, you should be able to hit `http://localhost:5000/client-token?countryCode=US`.
 
 ## Switching Merchant Account/ Authentication
 

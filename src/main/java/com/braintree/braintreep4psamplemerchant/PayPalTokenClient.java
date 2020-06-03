@@ -30,15 +30,15 @@ public class PayPalTokenClient {
         this.url = url;
     }
 
-    public UniversalAccessToken getLowScopedUAT(final String countryCode) {
-        return getUAT(tokenUtil.getTokenAuthorizationHeaderForLowScope(countryCode));
+    public IdToken getLowScopedToken(final String countryCode) {
+        return getToken(tokenUtil.getTokenAuthorizationHeaderForLowScope(countryCode));
     }
 
-    public UniversalAccessToken getFullScopedUAT(final String countryCode) {
-        return getUAT(tokenUtil.getTokenAuthorizationHeaderForFullScope(countryCode));
+    public IdToken getFullScopedToken(final String countryCode) {
+        return getToken(tokenUtil.getTokenAuthorizationHeaderForFullScope(countryCode));
     }
 
-    private UniversalAccessToken getUAT(final String authorizationHeader) {
+    private IdToken getToken(final String authorizationHeader) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", authorizationHeader);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -46,15 +46,15 @@ public class PayPalTokenClient {
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "client_credentials");
-        body.add("response_type", "uat");
+        body.add("response_type", "id_token");
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
-        ResponseEntity<UniversalAccessToken> response = restTemplate.postForEntity(
+        ResponseEntity<IdToken> response = restTemplate.postForEntity(
                 url + TOKEN_PATH,
                 request,
-                UniversalAccessToken.class);
+                IdToken.class);
 
-        System.out.println("Universal Access Token: " + response.getBody().getToken());
+        System.out.println("id_token: " + response.getBody().getToken());
         return response.getBody();
     }
 }

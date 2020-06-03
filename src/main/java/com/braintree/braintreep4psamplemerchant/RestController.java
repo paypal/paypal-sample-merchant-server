@@ -15,12 +15,12 @@ public class RestController {
         this.payPalTokenClient = payPalTokenClient;
     }
 
-    @GetMapping(path = "/uat")
-    UniversalAccessToken getUat(@RequestParam(value = "countryCode") String countryCode) {
+    @GetMapping(path = "/client-token")
+    IdToken getClientToken(@RequestParam(value = "countryCode") String countryCode) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v1/oauth2/token:");
         System.out.println("Country code: " + countryCode);
-        return payPalTokenClient.getLowScopedUAT(countryCode);
+        return payPalTokenClient.getLowScopedToken(countryCode);
     }
 
     @PostMapping(path = "/order")

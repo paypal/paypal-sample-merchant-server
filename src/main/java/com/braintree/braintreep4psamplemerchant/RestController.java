@@ -15,8 +15,8 @@ public class RestController {
         this.payPalTokenClient = payPalTokenClient;
     }
 
-    @GetMapping(path = "/client-token")
-    IdToken getClientToken(@RequestParam(value = "countryCode") String countryCode) {
+    @GetMapping(path = "/id-token")
+    IdToken getIDToken(@RequestParam(value = "countryCode") String countryCode) {
         System.out.println("******************************");
         System.out.println("REQUEST to /v1/oauth2/token:");
         System.out.println("Country code: " + countryCode);

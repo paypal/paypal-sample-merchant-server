@@ -47,6 +47,7 @@ public class PayPalTokenClient {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "client_credentials");
         body.add("response_type", "id_token");
+        body.add("entry_point", "paypal_native_sdk");
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
         ResponseEntity<IdToken> response = restTemplate.postForEntity(

@@ -1,7 +1,7 @@
 ## About
-This repository represents a sample merchant server for a merchant integrating with `BraintreePayPalValidator`. This repository uses sample PayPal merchant staging credentials to create PayPal orderIDs and universal access tokens, and to capture orders.
+This repository represents a sample merchant server for a merchant integrating with the [PayPal iOS-SDK](https://github.com/paypal/iOS-SDK) and [PayPal Android-SDK](https://github.com/paypal/Android-SDK). This repository uses sample PayPal merchant staging credentials to create PayPal orderIDs and universal access tokens, and to capture orders.
 
-**Note:** The `BraintreePayPalValidator` module is still in development and not meant for public consumption.
+**Note:** The PayPal iOS SDK and Android SDK are both still in development and not meant for public consumption.
 
 ## Build and run locally
 To build and run locally, use the command: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local`. Running this command will install Maven and all necessary dependencies.

